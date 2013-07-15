@@ -13,33 +13,67 @@
     </section>
 }
 <h3>Search a keyword in youtube:</h3>
-<ol class="round">
+ 
     <input type="text" id="txtSearch" name="txtSearch" />
-    <input type="button" id="btnSearch" name="btnSearch" value="Search" />
+    <br />
+    Published After: <input type="datetime" id="dtPublishedAfter" name="dtPublishedAfter" />
+    <br />
+    Published Before: <input type="datetime" id="dtPublishedBefore" name="dtPublishedBefore" />
+    <br />
+      <input type="button" id="btnSearch" name="btnSearch" value="Search" />
     <div id="results">
         <ul id="lstResults">
 
         </ul>
         
     </di>
-</ol>
+ 
 
 @section scripts{
     
     <script type="text/javascript" >
 
-        $(document).ready(function() {
+        $(document).ready(function () {
+
+     
+
+            $("#dtPublishedAfter").datepicker();
+            $("#dtPublishedBefore").datepicker();
         
             $("#btnSearch").click(function () {
 
                 // var flickerAPI = "http://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=?";
-                var youtubeAPI = "https://www.googleapis.com/youtube/v3/search";
+               // var youtubeAPI = "https://www.googleapis.com/youtube/v3/search";
+
+                var youtubeAPI = "https://www.googleapis.com/youtube/v3/search"
+
+                //$.getJSON(youtubeAPI, {
+                //    part: "snippet",
+                //    channelId: "coursera",
+                //    maxResults: "3",
+                //    q: $("#txtSearch").val(),
+                //    key: "AIzaSyC-878-4V0JpZp4Jw2N5nnQ9hIWNpnU2zo"
+                //})
+
                 $.getJSON(youtubeAPI, {
-                    part: "snippet",
-                    channelId: "coursera",
-                    maxResults: "3",
-                    q: $("#txtSearch").val(),
-                    key: "AIzaSyC-878-4V0JpZp4Jw2N5nnQ9hIWNpnU2zo"
+                part: "snippet",
+                channelId: "UCZ50rYSkYQG31YDEJm9Di_g",
+                maxResults: "5",
+                //publishedAfter: "2012-01-17T06:23:03.000Z",
+                //publishedBefore: "2013-12-00T00:00:00.000Z",
+                publishedAfter: new Date($("#dtPublishedAfter").val()).toISOString(),
+                publishedBefore: new Date($("#dtPublishedBefore").val()).toISOString(),
+                //safeSearch: "strict",
+                //videoCaption:"any",
+                //videoDefinition:"any",
+                //videoDimension: "any",
+                //videoDuration: "any",
+                //videoEmbeddable: "any",
+                //videoLicense: "any",
+                //videoSyndicated: "true",
+                //videoType: "episode",
+                q: $("#txtSearch").val(),
+                key: "AIzaSyC-878-4V0JpZp4Jw2N5nnQ9hIWNpnU2zo"
                 })
                 .done(function (data) {
                     $("#lstResults").html("");
@@ -50,11 +84,10 @@
                                                             "<img src='" + item.snippet.thumbnails.default.url + "' />" +
                                                         "</a> " +
                                                         "<br/> - Description: " + item.snippet.description +
+                                                        "<br/> - Published At: " + item.snippet.publishedAt +
                                                         //"<br/><iframe title='YouTube video player' src='http://www.youtube.com/embed/'" + item.id.videoId + " width='480' height='390' frameborder='0'></iframe>" +
                                                 "</li>");
-                        if (i === 3) {
-                            return false;
-                        }
+                        
                     });
                 });
 

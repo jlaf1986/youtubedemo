@@ -6,6 +6,7 @@
         <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
         <meta name="viewport" content="width=device-width" />
         @Styles.Render("~/Content/css")
+        @Styles.Render("~/Content/themes/base/css");
         @Scripts.Render("~/bundles/modernizr")
     </head>
     <body>
@@ -21,8 +22,7 @@
                     <nav>
                         <ul id="menu">
                             <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                            <li>@Html.ActionLink("About", "About", "Home")</li>
-                            <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                     
                         </ul>
                     </nav>
                 </div>
@@ -41,8 +41,11 @@
                 </div>
             </div>
         </footer>
-
+        <link href="~/Content/themes/base/jquery.ui.datepicker.css" rel="stylesheet" />
         @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/jqueryval")
+        @Scripts.Render("~/bundles/jqueryui")
+       
         @RenderSection("scripts", required: false)
     </body>
 </html>
