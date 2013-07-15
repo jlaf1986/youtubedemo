@@ -1,0 +1,70 @@
+﻿@{
+    ViewBag.Title = "Youtube API Demo";
+}
+@section featured {
+    <section class="featured">
+        <div class="content-wrapper">
+            <hgroup class="title">
+                <h1>@ViewBag.Title.</h1>
+                <h2>@ViewBag.Message</h2>
+            </hgroup>
+            
+        </div>
+    </section>
+}
+<h3>Search a keyword in youtube:</h3>
+<ol class="round">
+    <input type="text" id="txtSearch" name="txtSearch" />
+    <input type="button" id="btnSearch" name="btnSearch" value="Search" />
+    <div id="results">
+        <ul id="lstResults">
+
+        </ul>
+        
+    </di>
+</ol>
+
+@section scripts{
+    
+    <script type="text/javascript" >
+
+        $(document).ready(function() {
+        
+            $("#btnSearch").click(function () {
+
+                // var flickerAPI = "http://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=?";
+                var youtubeAPI = "https://www.googleapis.com/youtube/v3/search";
+                $.getJSON(youtubeAPI, {
+                    part: "snippet",
+                    channelId: "coursera",
+                    maxResults: "3",
+                    q: $("#txtSearch").val(),
+                    key: "AIzaSyC-878-4V0JpZp4Jw2N5nnQ9hIWNpnU2zo"
+                })
+                .done(function (data) {
+                    $("#lstResults").html("");
+                    $.each(data.items, function (i, item) {
+                        $("#lstResults").append("<li>" +
+                                                        "Title: " + item.snippet.title +
+                                                        "<br/><a href='http://www.youtube.com/watch?v=" + item.id.videoId + "' >" +
+                                                            "<img src='" + item.snippet.thumbnails.default.url + "' />" +
+                                                        "</a> " +
+                                                        "<br/> - Description: " + item.snippet.description +
+                                                        //"<br/><iframe title='YouTube video player' src='http://www.youtube.com/embed/'" + item.id.videoId + " width='480' height='390' frameborder='0'></iframe>" +
+                                                "</li>");
+                        if (i === 3) {
+                            return false;
+                        }
+                    });
+                });
+
+            });
+
+
+            });
+
+    </script>
+
+ 
+
+}
